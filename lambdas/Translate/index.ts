@@ -33,7 +33,11 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent): P
             statusCode: 200,
             headers: {
                 "Content-Type": "application/json",
-                "Cache-Control": "no-store"
+                "Cache-Control": "no-store",
+                "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+                "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*",
             },
             body: JSON.stringify({ 
                 message: `La traducción de ${Text} en el lenguaje ${SourceLanguageCode.toUpperCase()} es : ${result.TranslatedText} en el lenguaje ${TargetLanguageCode.toUpperCase()} `,
@@ -46,7 +50,12 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayEvent): P
         return {
             statusCode: err instanceof Error && err.message.includes('No body was found') ? 400 : 500,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Cache-Control": "no-store",
+                "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+                "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "*",
             },
             body: JSON.stringify({ 
                 message: "An error occurred during translation",
